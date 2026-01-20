@@ -1,0 +1,36 @@
+{
+  "name": "automated-playwright",
+  "version": "2.0.0",
+  "description": "Playwright 深度验证测试 + 网络 API 抓包",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:auth": "playwright test tests/auth-simple-test.spec.ts",
+    "test:auth:headed": "playwright test tests/auth-simple-test.spec.ts --headed",
+    "test:leaderboard": "playwright test tests/leaderboard-working-test.spec.ts",
+    "test:leaderboard:headed": "playwright test tests/leaderboard-working-test.spec.ts --headed",
+    "test:sports": "playwright test tests/sports-core-test.spec.ts",
+    "test:sports:headed": "playwright test tests/sports-core-test.spec.ts --headed",
+    "test:organization": "playwright test tests/organization-final-test.spec.ts",
+    "test:organization:headed": "playwright test tests/organization-final-test.spec.ts --headed",
+    "test:testplan": "playwright test tests/testplan-final-test.spec.ts",
+    "test:testplan:headed": "playwright test tests/testplan-final-test.spec.ts --headed",
+    "test:event": "playwright test tests/event-core-test.spec.ts",
+    "test:event:headed": "playwright test tests/event-core-test.spec.ts --headed",
+    "test:all": "playwright test tests/auth-simple-test.spec.ts tests/leaderboard-working-test.spec.ts tests/sports-core-test.spec.ts tests/organization-final-test.spec.ts tests/testplan-final-test.spec.ts tests/event-core-test.spec.ts",
+    "test:recordings": "playwright test tests/recording-*.spec.ts",
+    "record": "playwright codegen",
+    "record:auth": "playwright codegen https://www.aisports.cn/integratedServicesSy --output=tests/recording-auth.spec.ts",
+    "record:leaderboard": "playwright codegen https://www.aisports.cn/integratedServicesSy --output=tests/recording-leaderboard.spec.ts",
+    "record:sports": "playwright codegen https://www.aisports.cn/integratedServicesSy --output=tests/recording-sports.spec.ts",
+    "record:org": "playwright codegen https://www.aisports.cn/integratedServicesSy --output=tests/recording-organization.spec.ts",
+    "record:testplan": "playwright codegen https://www.aisports.cn/integratedServicesSy --output=tests/recording-testplan.spec.ts",
+    "record:event": "playwright codegen https://www.aisports.cn/integratedServicesSy --output=tests/recording-event.spec.ts",
+    "show-report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}
