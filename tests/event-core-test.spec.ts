@@ -12,6 +12,9 @@ test.describe('赛事管理模块核心功能测试', () => {
     await page.getByRole('textbox', { name: '请输入密码' }).fill('Aa123456');
     await page.getByRole('dialog').getByText('登录', { exact: true }).click();
 
+    // 添加登录成功断言：等待 "工作台" 出现（更鲁棒，避免 URL 未跳转的情况）
+    await expect(page.getByText('工作台')).toBeVisible({ timeout: 15000 });
+
     // 导航到赛事活动
     await page.getByText('工作台').click();
     await page.getByText('活动管理').click();
@@ -20,7 +23,7 @@ test.describe('赛事管理模块核心功能测试', () => {
 
   test('步骤1: 查看已有赛事详情', async ({ page }) => {
     // 点击查看第一次测试赛事
-    await page.locator('xpath=//*[@id="root-master"]/div[1]/div[1]/div[2]/div/div[2]/div/div[2]/div/div/div[1]/div[2]/div[1]', { exact: true }).click();
+    await page.locator('xpath=//*[@id="root-master"]/div[1]/div[1]/div[2]/div/div[2]/div/div[2]/div/div/div[1]/div[2]/div[1]').click();
 
     // 验证页面导航成功
     await expect(page.getByText('返回')).toBeVisible();
@@ -31,13 +34,23 @@ test.describe('赛事管理模块核心功能测试', () => {
 
   test('步骤2: 赛项筛选功能', async ({ page }) => {
     // 打开赛项筛选下拉框
-    await page.getByRole('combobox', { name: '赛项 :' }).click();
+    const combobox = page.getByRole('combobox', { name: '赛项 :' });
+    await combobox.click();
 
-    // 选择50米跑
-    await page.getByText('50米跑', { exact: true }).click();
+    // 选择50米跑：先等待可见，若被浮动元素遮挡则尝试强制点击
+    const option50 = page.getByText('50米跑', { exact: true });
+    try {
+      await option50.waitFor({ state: 'visible', timeout: 5000 });
+      await option50.click();
+    } catch (e) {
+      // 退回到强制点击以绕过浮动遮挡问题
+      await option50.click({ force: true });
+    }
 
-    // 清除筛选
-    await page.getByLabel('close-circle').locator('svg').click();
+    // 清除筛选（等待清除按钮可见后点击）
+    const clearBtn = page.getByLabel('close-circle').locator('svg');
+    await clearBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await clearBtn.click();
   });
 
   test('步骤3: 新建赛事活动', async ({ page }) => {

@@ -11,7 +11,9 @@ test('test', async ({ page }) => {
   await page.getByText('工作台').click();
   await page.getByText('活动管理').click();
   await page.getByText('赛事活动').click();
-  await page.getByText('第一次测试', { exact: true }).click();
+  const firstTestLocators = page.locator('xpath=//*[@id="root-master"]/div[1]/div[1]/div[2]/div/div[2]/div/div[2]/div/div/div[1]/div[2]/div[1]');
+  await expect(firstTestLocators).toBeVisible();
+  await firstTestLocators.click();
   await page.getByText('返回').click();
   await page.getByRole('combobox', { name: '赛项 :' }).click();
   await page.getByText('50米跑', { exact: true }).click();
